@@ -29,7 +29,10 @@ public class AsyncConfiguration implements AsyncConfigurer {
         log.info("Creating Async Task Executor");
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(jHipsterProperties.getAsync().getCorePoolSize());
-        return null;
+        executor.setMaxPoolSize(jHipsterProperties.getAsync().getMaxPoolSize());
+        executor.setQueueCapacity(jHipsterProperties.getAsync().getQueueCapacity());
+        executor.setThreadNamePrefix("bookstore-Executor-");
+        return new ExceptionHandlingAsyncTaskExecutor(executor);
     }
 
     @Override
