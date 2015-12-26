@@ -6,6 +6,7 @@ angular.module('sdApp')
             'get': { method: 'GET', params: {}, isArray: false,
                 interceptor: {
                     response: function(response) {
+                        console.log('log from Account.get');
                         return response;
                     }
                 }

@@ -93,6 +93,3 @@ angular.module('sdApp')
 
 
 
-
-
-

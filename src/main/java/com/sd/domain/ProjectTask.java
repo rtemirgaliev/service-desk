@@ -2,13 +2,14 @@ package com.sd.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "projecttask")
-public class ProjectTask {
+public class ProjectTask implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,12 +27,12 @@ public class ProjectTask {
 
     private ZonedDateTime endDateTarget = null;
 
-    @ManyToMany   //(mappedBy = "projecttask")     //cascade = CascadeType.ALL, orphanRemoval = true
-    private Set<User> users = new HashSet<User>();
-
-    @ManyToOne
-    @JoinColumn(name = "project_id")
-    private Project project = new Project();
+//    @ManyToMany   //(mappedBy = "projecttask")     //cascade = CascadeType.ALL, orphanRemoval = true
+//    private Set<User> users = new HashSet<User>();
+//
+//    @ManyToOne
+//    @JoinColumn(name = "project_id")
+//    private Project project = new Project();
 
 
     public Long getId() {
@@ -74,21 +75,21 @@ public class ProjectTask {
         this.endDateTarget = endDateTarget;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
+//    public Set<User> getUsers() {
+//        return users;
+//    }
+//
+//    public void setUsers(Set<User> users) {
+//        this.users = users;
+//    }
+//
+//    public Project getProject() {
+//        return project;
+//    }
+//
+//    public void setProject(Project project) {
+//        this.project = project;
+//    }
 
 
 

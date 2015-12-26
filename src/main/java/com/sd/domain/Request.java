@@ -2,11 +2,12 @@ package com.sd.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "request")
-public class Request {
+public class Request implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

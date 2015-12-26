@@ -2,12 +2,13 @@ package com.sd.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.*;
 
 @Entity
 @Table(name = "projectmessage")
-public class ProjectMessage {
+public class ProjectMessage implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,21 +27,21 @@ public class ProjectMessage {
 
     private ZonedDateTime creationTime = null;
 
-    @ManyToMany
-    private Set<User> toUsers = new HashSet<User>();
+//    @ManyToMany
+//    private Set<User> toUsers = new HashSet<User>();
+//
+//    @ManyToOne
+//    @JoinColumn(name = "project_id")
+//    private Project project;
 
-    @ManyToOne
-    @JoinColumn(name = "project_id")
-    private Project project;
 
-
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
+//    public Project getProject() {
+//        return project;
+//    }
+//
+//    public void setProject(Project project) {
+//        this.project = project;
+//    }
 
     public Long getId() {
         return id;
@@ -82,13 +83,13 @@ public class ProjectMessage {
         this.creationTime = creationTime;
     }
 
-    public Set<User> getToUsers() {
-        return toUsers;
-    }
-
-    public void setToUsers(Set<User> toUsers) {
-        this.toUsers = toUsers;
-    }
+//    public Set<User> getToUsers() {
+//        return toUsers;
+//    }
+//
+//    public void setToUsers(Set<User> toUsers) {
+//        this.toUsers = toUsers;
+//    }
 
 
 }

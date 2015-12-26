@@ -9,7 +9,7 @@ angular.module('sdApp')
                           '&rememder-me=' + credentials.rememberMe + '&submit=Login';
                return $http.post('api/authentication', data, {
                    headers: {
-                       'Content-Type': 'application/x-www/form/urlencoded'
+                       'Content-Type': 'application/x-www-form-urlencoded'
                    }
                }).success(function(response) {
                    return response;

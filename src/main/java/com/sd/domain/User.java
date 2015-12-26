@@ -7,46 +7,82 @@ import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "sduser")
-public class User {
+@Table(name = "sd_user")
+//@Cache()
+public class User extends AbstractAuditingEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
+    @Pattern(regexp = "^[a-z0-9]*$|(anonimousUser)")
     @Size(min = 1, max = 50)
     @Column(length = 50, unique = true, nullable = false)
     private String login;
 
     @JsonIgnore
-    @NotNull            //hibernate validator -> realize
-    @Size(min = 10, max = 10)  //60
-    @Column(length = 10, nullable = false)
-    private String passwordHash;
+    @NotNull
+    @Size(min = 60, max = 60)
+    @Column(name = "password_hash", length = 60)
+    private String password;
 
-    @Size(min = 1, max = 50)
-    @Column(length = 50)
+    @Size(max = 50)
+    @Column(name = "first_name", length = 50)
     private String firstName;
 
-    @Size(min = 1, max = 50)
-    @Column(length = 50)
+    @Size(max = 50)
+    @Column(name = "last_name", length = 50)
     private String lastName;
 
     @Size(max = 50)
-    @Email            //hibernate validator -> realize
+    @Email
     @Column(length = 50)
     private String email;
 
-    //private String photo;  //filed type??
+    @Column(nullable = false)
+    private boolean activated = false;
 
-    //@JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<UserGroup> groups = new HashSet<UserGroup>();
+    @Size(min = 2, max = 5)
+    @Column(name = "lang_key", length = 5)
+    private String langKey;
+
+    @Size(max = 20)
+    @Column(name = "activation_key", length = 20)
+    @JsonIgnore
+    private String activationKey;
+
+    @Size(max = 20)
+    @Column(name = "reset_key", length = 20)
+    private String resetkey;
+
+    @Column(name = "reset_date", nullable = true)
+    private ZonedDateTime resetDate = null;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "sd_user_authority",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
+//    @Cache()
+    private Set<Authority> authorities = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+    //Cache()
+    private Set<PersistentToken> persistentTokens = new HashSet<>();
+
+//    @JsonIgnore
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    private Set<UserGroup> groups = new HashSet<UserGroup>();
 
 
     public Long getId() {
@@ -65,12 +101,12 @@ public class User {
         this.login = login;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {
@@ -97,53 +133,96 @@ public class User {
         this.email = email;
     }
 
-    public Set<UserGroup> getGroups() {
-        return groups;
+    public boolean getActivated() {
+        return activated;
     }
 
-    public void setGroups(Set<UserGroup> groups) {
-        this.groups = groups;
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 
+    public String getLangKey() {
+        return langKey;
+    }
+
+    public void setLangKey(String langKey) {
+        this.langKey = langKey;
+    }
+
+    public String getActivationKey() {
+        return activationKey;
+    }
+
+    public void setActivationKey(String activationKey) {
+        this.activationKey = activationKey;
+    }
+
+    public String getResetkey() {
+        return resetkey;
+    }
+
+    public void setResetkey(String resetkey) {
+        this.resetkey = resetkey;
+    }
+
+    public ZonedDateTime getResetDate() {
+        return resetDate;
+    }
+
+    public void setResetDate(ZonedDateTime resetDate) {
+        this.resetDate = resetDate;
+    }
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
+    public Set<PersistentToken> getPersistentTokens() {
+        return persistentTokens;
+    }
+
+    public void setPersistentTokens(Set<PersistentToken> persistentTokens) {
+        this.persistentTokens = persistentTokens;
+    }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         User user = (User) o;
 
-        if (!id.equals(user.id)) return false;
-        if (login != null ? !login.equals(user.login) : user.login != null) return false;
-        if (passwordHash != null ? !passwordHash.equals(user.passwordHash) : user.passwordHash != null) return false;
-        if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
-        if (email != null ? !email.equals(user.email) : user.email != null) return false;
-        return !(groups != null ? !groups.equals(user.groups) : user.groups != null);
+        if (!login.equals(user.login)) {
+            return false;
+        }
 
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + (login != null ? login.hashCode() : 0);
-        result = 31 * result + (passwordHash != null ? passwordHash.hashCode() : 0);
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (groups != null ? groups.hashCode() : 0);
-        return result;
+        return login.hashCode();
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", passwordHash='" + passwordHash + '\'' +
+                "login='" + login + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                '}';
+                ", activated='" + activated + '\'' +
+                ", langKey='" + langKey + '\'' +
+                ", activationKey='" + activationKey + '\'' +
+                "}";
     }
+
 }

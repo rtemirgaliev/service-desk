@@ -15,11 +15,11 @@ angular.module('sdApp', ['ui.router', 'ngResource', 'LocalStorageModule'])
         //    $rootScope.toStateParams = toStateParams;
         //
         //    if (Principal.isIdentityResolved()) {
-        //        Auth.authorize();
+        //        //Auth.authorize();
         //    }
         //
         //});
-
+        //
         //$rootScope.$on('$stateChangeSuccess',  function(event, toState, toParams, fromState, fromParams) {
         //    var titleKey = 'servicedesk' ;
         //
@@ -39,14 +39,14 @@ angular.module('sdApp', ['ui.router', 'ngResource', 'LocalStorageModule'])
         //    $window.document.title = titleKey;
         //});
 
-        //$rootScope.back = function() {
-        //    // If previous state is 'activate' or do not exist go to 'home'
-        //    if ($rootScope.previousStateName === 'activate' || $state.get($rootScope.previousStateName) === null) {
-        //        $state.go('home');
-        //    } else {
-        //        $state.go($rootScope.previousStateName, $rootScope.previousStateParams);
-        //    }
-        //};
+        $rootScope.back = function() {
+            // If previous state is 'activate' or do not exist go to 'home'
+            if ($rootScope.previousStateName === 'activate' || $state.get($rootScope.previousStateName) === null) {
+                $state.go('home');
+            } else {
+                $state.go($rootScope.previousStateName, $rootScope.previousStateParams);
+            }
+        };
     })
 //.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, httpRequestInterceptorCacheBusterProvider, AlertServiceProvider) {
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
