@@ -25,7 +25,7 @@ spring:
         username: servicedesk
         password: 123
     jpa:
-#        database-platform: com.sd.domain.util.FixedPostgreSQL82Dialect
+        database-platform: com.sd.domain.util.FixedPostgreSQL82Dialect
         database: POSTGRESQL
         show_sql: true
 #        properties:

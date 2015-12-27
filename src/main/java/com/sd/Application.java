@@ -2,6 +2,8 @@ package com.sd;
 
 import com.sd.config.Constants;
 import com.sd.config.JHipsterProperties;
+import com.sd.domain.User;
+import com.sd.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -15,6 +17,7 @@ import org.springframework.core.env.SimpleCommandLinePropertySource;
 import javax.inject.Inject;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Optional;
 
 @ComponentScan
 @EnableAutoConfiguration //(exclude = { MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class })
@@ -25,6 +28,7 @@ public class Application {
 
     @Inject
     private Environment env;
+
 
     public static void main(String[] args) throws UnknownHostException {
 
@@ -38,7 +42,6 @@ public class Application {
                 env.getProperty("server.port"),
                 InetAddress.getLocalHost().getHostAddress(),
                 env.getProperty("server.port"));
-
     }
 
     /**

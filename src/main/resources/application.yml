@@ -20,3 +20,17 @@ spring:
             naming-strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
 
 
+security:
+    basic:
+        enabled: false
+
+
+# ===================================================================
+# JHipster specific properties
+# ===================================================================
+
+jhipster:
+    async:
+        corePoolSize: 2
+        maxPoolSize: 50
+        queueCapacity: 10000

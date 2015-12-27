@@ -2,21 +2,25 @@ package com.sd.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
-
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.time.ZonedDateTime;
 
+/**
+ * A user.
+ */
 @Entity
 @Table(name = "sd_user")
-//@Cache()
+//@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User extends AbstractAuditingEntity implements Serializable {
 
     @Id
@@ -24,7 +28,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     private Long id;
 
     @NotNull
-    @Pattern(regexp = "^[a-z0-9]*$|(anonimousUser)")
+    @Pattern(regexp = "^[a-z0-9]*$|(anonymousUser)")
     @Size(min = 1, max = 50)
     @Column(length = 50, unique = true, nullable = false)
     private String login;
@@ -32,7 +36,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @JsonIgnore
     @NotNull
     @Size(min = 60, max = 60)
-    @Column(name = "password_hash", length = 60)
+    @Column(name = "password_hash",length = 60)
     private String password;
 
     @Size(max = 50)
@@ -43,8 +47,8 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "last_name", length = 50)
     private String lastName;
 
-    @Size(max = 50)
     @Email
+    @Size(max = 50)
     @Column(length = 50)
     private String email;
 
@@ -62,28 +66,24 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @Size(max = 20)
     @Column(name = "reset_key", length = 20)
-    private String resetkey;
+    private String resetKey;
 
     @Column(name = "reset_date", nullable = true)
     private ZonedDateTime resetDate = null;
 
     @JsonIgnore
     @ManyToMany
-    @JoinTable(name = "sd_user_authority",
+    @JoinTable(
+            name = "sd_user_authority",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
-//    @Cache()
+//    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Authority> authorities = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
-    //Cache()
+//    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<PersistentToken> persistentTokens = new HashSet<>();
-
-//    @JsonIgnore
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    private Set<UserGroup> groups = new HashSet<UserGroup>();
-
 
     public Long getId() {
         return id;
@@ -141,14 +141,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.activated = activated;
     }
 
-    public String getLangKey() {
-        return langKey;
-    }
-
-    public void setLangKey(String langKey) {
-        this.langKey = langKey;
-    }
-
     public String getActivationKey() {
         return activationKey;
     }
@@ -157,12 +149,12 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.activationKey = activationKey;
     }
 
-    public String getResetkey() {
-        return resetkey;
+    public String getResetKey() {
+        return resetKey;
     }
 
-    public void setResetkey(String resetkey) {
-        this.resetkey = resetkey;
+    public void setResetKey(String resetKey) {
+        this.resetKey = resetKey;
     }
 
     public ZonedDateTime getResetDate() {
@@ -171,6 +163,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public void setResetDate(ZonedDateTime resetDate) {
         this.resetDate = resetDate;
+    }
+
+    public String getLangKey() {
+        return langKey;
+    }
+
+    public void setLangKey(String langKey) {
+        this.langKey = langKey;
     }
 
     public Set<Authority> getAuthorities() {
@@ -224,5 +224,4 @@ public class User extends AbstractAuditingEntity implements Serializable {
                 ", activationKey='" + activationKey + '\'' +
                 "}";
     }
-
 }

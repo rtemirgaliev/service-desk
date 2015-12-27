@@ -18,6 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 
+
 @Component("userDetailsService")
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
@@ -26,27 +27,25 @@ public class UserDetailsService implements org.springframework.security.core.use
     @Inject
     private UserRepository userRepository;
 
-
-
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(final String login) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(final String login) {
         log.info("Authenticating {}", login);
-        String lowerCaseLogin = login.toLowerCase();
-        Optional<User> userFromDatabase = userRepository.findOneByLogin(lowerCaseLogin);
+        String lowercaseLogin = login.toLowerCase();
+        Optional<User> userFromDatabase = userRepository.findOneByLogin(lowercaseLogin);
         log.info("userFromDatabase: " + userFromDatabase.toString());
 
 
         return userFromDatabase.map(user -> {
             if(!user.getActivated()) {
-                throw new UserNotActivatedException("User " + lowerCaseLogin + " was not activated");
+                throw new UserNotActivatedException("User " + lowercaseLogin + " was not activated");
             }
             List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
                     .map(authority -> new SimpleGrantedAuthority(authority.getName()))
                     .collect(Collectors.toList());
-            return new org.springframework.security.core.userdetails.User(lowerCaseLogin, user.getPassword(), grantedAuthorities);
+            return new org.springframework.security.core.userdetails.User(lowercaseLogin, user.getPassword(), grantedAuthorities);
 
-        }).orElseThrow(() -> new UsernameNotFoundException("User " + lowerCaseLogin + " was not found in the " + "database"));
+        }).orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the " + "database"));
 
     }
 }
