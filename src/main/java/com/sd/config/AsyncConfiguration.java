@@ -1,6 +1,6 @@
 package com.sd.config;
 
-import com.sd.asyync.ExceptionHandlingAsyncTaskExecutor;
+import com.sd.async.ExceptionHandlingAsyncTaskExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
@@ -33,7 +33,7 @@ public class AsyncConfiguration implements AsyncConfigurer {
         executor.setCorePoolSize(jHipsterProperties.getAsync().getCorePoolSize());
         executor.setMaxPoolSize(jHipsterProperties.getAsync().getMaxPoolSize());
         executor.setQueueCapacity(jHipsterProperties.getAsync().getQueueCapacity());
-        executor.setThreadNamePrefix("bookstore-Executor-");
+        executor.setThreadNamePrefix("servicedesk-Executor-");
         return new ExceptionHandlingAsyncTaskExecutor(executor);
     }
 

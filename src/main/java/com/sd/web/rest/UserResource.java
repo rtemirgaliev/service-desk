@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 public class UserResource {
 
-    private final Logger log = LoggerFactory.getLogger(UserResource.class);
+//    private final Logger log = LoggerFactory.getLogger(UserResource.class);
 
     @Inject
     private UserRepository userRepository;
@@ -48,9 +48,6 @@ public class UserResource {
                 .collect(Collectors.toList());
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
 
-        log.info("Log from getAllUsers. List length: " + managedUserDTOs.size());
-        log.info("Log from getAllUsers. Content: " + managedUserDTOs.toString());
-        log.info("Log from getAllUsers. Headers: " + headers.toString());
 
         return new ResponseEntity<>(managedUserDTOs, headers, HttpStatus.OK);
     }

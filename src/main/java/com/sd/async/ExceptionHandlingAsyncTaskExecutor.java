@@ -1,4 +1,4 @@
-package com.sd.asyync;
+package com.sd.async;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,7 @@ public class ExceptionHandlingAsyncTaskExecutor implements AsyncTaskExecutor, In
         executor.execute(createWrappedRunnable(task), startTimeout);
     }
 
-    private <T> Callable<T> createCalleble(final Callable<T> task) {
+    private <T> Callable<T> createCallable(final Callable<T> task) {
         return () -> {
             try {
                 return task.call();
@@ -53,7 +53,7 @@ public class ExceptionHandlingAsyncTaskExecutor implements AsyncTaskExecutor, In
     public Future<?> submit(Runnable task) { return executor.submit(createWrappedRunnable(task)); }
 
     @Override
-    public <T> Future<T> submit(Callable<T> task) { return executor.submit(createCalleble(task)); }
+    public <T> Future<T> submit(Callable<T> task) { return executor.submit(createCallable(task)); }
 
     @Override
     public void destroy() throws Exception {

@@ -14,9 +14,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.SimpleCommandLinePropertySource;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.Optional;
 
 @ComponentScan
@@ -26,9 +29,17 @@ public class Application {
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);
 
+    @PostConstruct
+    public void initApplication() throws IOException {
+        if (env.getActiveProfiles().length == 0) {
+            log.warn("No Spring profile configured, running with default configuration");
+        } else {
+            log.info("Running with Spring profile(s) : {}", Arrays.toString(env.getActiveProfiles()));
+        }
+    }
+
     @Inject
     private Environment env;
-
 
     public static void main(String[] args) throws UnknownHostException {
 

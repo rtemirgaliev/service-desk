@@ -31,7 +31,6 @@ public class DatabaseConfiguration {
     @Inject
     private Environment env;
 
-
     @Bean(destroyMethod = "close")
     @ConditionalOnExpression("#{!environment.acceptsProfiles('cloud') && !environment.acceptsProfiles('heroku')}")
     public DataSource dataSource(DataSourceProperties dataSourceProperties, JHipsterProperties jHipsterProperties) {
