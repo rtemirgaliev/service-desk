@@ -3,6 +3,7 @@ package com.sd.config;
 import com.sd.security.AjaxAuthenticationFailureHandler;
 import com.sd.security.AjaxAuthenticationSuccessHandler;
 import com.sd.security.AjaxLogoutSuccessHandler;
+import com.sd.security.Http401UnauthorizedEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -28,6 +29,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private AjaxAuthenticationFailureHandler ajaxAuthenticationFailureHandler;
     @Inject
     private AjaxLogoutSuccessHandler ajaxLogoutSucessHandler;
+
+    @Inject
+    private Http401UnauthorizedEntryPoint authenticationEntryPoint;
+
     @Inject
     private UserDetailsService userDetailsService;
 
@@ -46,6 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
             .csrf()
             .disable()
+
 
             .formLogin()
             .loginProcessingUrl("/api/authentication")
