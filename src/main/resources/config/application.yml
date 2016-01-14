@@ -34,3 +34,7 @@ jhipster:
         corePoolSize: 2
         maxPoolSize: 50
         queueCapacity: 10000
+    security:
+        rememberme:
+            # security key (this key should be unique for your application, and kept secret)
+            key: 7c77f461670b7aafa6bc7a0ced5dd4f2d5c22766

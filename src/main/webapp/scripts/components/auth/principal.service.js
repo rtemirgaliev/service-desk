@@ -7,6 +7,7 @@ angular.module('sdApp')
 
         return {
             isIdentityResolved: function () {
+                console.log("identity: "+ _identity);       //<---
                 return angular.isDefined(_identity);
             },
             isAuthenticated: function () {
