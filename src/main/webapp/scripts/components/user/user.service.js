@@ -11,7 +11,7 @@ angular.module('sdApp')
                     return data;
                 }
             },
-            'update': {method: 'PUT'}
+            'update': { method:'PUT' }
         });
     });
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.Optional;
 
 /**
  * Service class for managing users.
@@ -27,6 +28,14 @@ public class UserService {
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUser().getUsername()).get();
         user.getAuthorities().size(); // eagerly load the association
         return user;
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<User> getUserWithAuthoritiesByLogin(String login) {
+        return userRepository.findOneByLogin(login).map(u -> {
+            u.getAuthorities().size();
+            return u;
+        });
     }
 
 

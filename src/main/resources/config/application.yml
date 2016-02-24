@@ -29,7 +29,7 @@ security:
 # JHipster specific properties
 # ===================================================================
 
-jhipster:
+mainapp:
     async:
         corePoolSize: 2
         maxPoolSize: 50

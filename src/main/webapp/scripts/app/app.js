@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sdApp', ['ui.router', 'ngResource', 'LocalStorageModule'])
+angular.module('sdApp', ['ui.router', 'ngResource', 'LocalStorageModule', 'ui.bootstrap'])
     //'ngCookies', 'ngAria', 'ngCacheBuster', 'ngFileUpload',
     //'ui.bootstrap', 'infinite-scroll', 'angular-loading-bar'])
 
@@ -14,16 +14,13 @@ angular.module('sdApp', ['ui.router', 'ngResource', 'LocalStorageModule'])
             $rootScope.toState = toState;
             $rootScope.toStateParams = toStateParams;
 
-            if (Principal.isIdentityResolved()) {
-                Auth.authorize();
-            }
+            //if (Principal.isIdentityResolved()) {
+            //    Auth.authorize();
+            //}
         });
 
         $rootScope.$on('$stateChangeSuccess',  function(event, toState, toParams, fromState, fromParams) {
             var titleKey = 'servicedesk' ;
-
-
-            console.log("stateChange Success event called ");
 
 
             // Remember previous state unless we've been redirected to login or we've just
@@ -52,7 +49,7 @@ angular.module('sdApp', ['ui.router', 'ngResource', 'LocalStorageModule'])
         };
     })
 //.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, httpRequestInterceptorCacheBusterProvider, AlertServiceProvider) {
-.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider) {
+.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, AlertServiceProvider) {
 
         // uncomment below to make alerts look like toast
         //AlertServiceProvider.showAsToast(true);
@@ -88,7 +85,7 @@ angular.module('sdApp', ['ui.router', 'ngResource', 'LocalStorageModule'])
 
         //$httpProvider.interceptors.push('errorHandlerInterceptor');
         //$httpProvider.interceptors.push('authExpiredInterceptor');
-        //$httpProvider.interceptors.push('notificationInterceptor');
+        $httpProvider.interceptors.push('notificationInterceptor');
 
     })
     //.config(['$urlMatcherFactoryProvider', function($urlMatcherFactory) {

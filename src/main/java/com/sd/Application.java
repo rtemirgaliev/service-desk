@@ -1,9 +1,7 @@
 package com.sd;
 
 import com.sd.config.Constants;
-import com.sd.config.JHipsterProperties;
-import com.sd.domain.User;
-import com.sd.repository.UserRepository;
+import com.sd.config.MainAppProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -20,11 +18,10 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
-import java.util.Optional;
 
 @ComponentScan
 @EnableAutoConfiguration //(exclude = { MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class })
-@EnableConfigurationProperties({JHipsterProperties.class, LiquibaseProperties.class})
+@EnableConfigurationProperties({MainAppProperties.class, LiquibaseProperties.class})
 public class Application {
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);

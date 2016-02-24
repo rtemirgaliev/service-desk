@@ -8,8 +8,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import javax.validation.constraints.NotNull;
 
 
-@ConfigurationProperties(prefix = "jhipster", ignoreUnknownFields = false)
-public class JHipsterProperties {
+@ConfigurationProperties(prefix = "mainapp", ignoreUnknownFields = false)
+public class MainAppProperties {
 
     private final Async async = new Async();
 

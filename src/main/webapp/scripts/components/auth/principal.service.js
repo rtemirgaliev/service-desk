@@ -8,6 +8,7 @@ angular.module('sdApp')
         return {
             isIdentityResolved: function () {
                 console.log("identity: "+ _identity);       //<---
+                console.log("identity is defined: "+ angular.isDefined(_identity));       //<---
                 return angular.isDefined(_identity);
             },
             isAuthenticated: function () {
@@ -30,7 +31,7 @@ angular.module('sdApp')
                 }
 
                 for (var i = 0; i < authorities.length; i++) {
-                    if (_identity.authorities.indexOf(authorities[1]) !== -1) {
+                    if (_identity.authorities.indexOf(authorities[1]) !== -1) {    //<--- i?
                         return true;
                     }
                 }

@@ -33,7 +33,7 @@ public class DatabaseConfiguration {
 
     @Bean(destroyMethod = "close")
     @ConditionalOnExpression("#{!environment.acceptsProfiles('cloud') && !environment.acceptsProfiles('heroku')}")
-    public DataSource dataSource(DataSourceProperties dataSourceProperties, JHipsterProperties jHipsterProperties) {
+    public DataSource dataSource(DataSourceProperties dataSourceProperties, MainAppProperties mainAppProperties) {
         log.info("Configuring Datasource");
         if (dataSourceProperties.getUrl() == null) {
             log.error("Your database connection pool configuration is incorrect! The application" +
